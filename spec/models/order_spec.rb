@@ -32,6 +32,7 @@ describe Order, type: :model do
       @brian = Merchant.create(name: "Brian's Dog Shop", address: '125 Doggo St.', city: 'Denver', state: 'CO', zip: 80_210)
 
       @tire = @meg.items.create(name: 'Gatorskins', description: "They'll never pop!", price: 100, image: 'https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588', inventory: 12)
+      @chain = @meg.items.create(name: "Chain", description: "It'll never break!", price: 50, image: "https://www.rei.com/media/b61d1379-ec0e-4760-9247-57ef971af0ad?size=784x588", inventory: 5)
       @pull_toy = @brian.items.create(name: 'Pull Toy', description: 'Great pull toy!', price: 10, image: 'http://lovencaretoys.com/image/cache/dog/tug-toy-dog-pull-9010_2-800x800.jpg', inventory: 32)
 
       @order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17_033)
@@ -95,6 +96,14 @@ describe Order, type: :model do
     it '#merchant_item_count' do
       expect(@order_1.merchant_item_count(@meg.id)).to eq(2)
       expect(@order_1.merchant_item_count(@brian.id)).to eq(3)
+    end
+
+    it '#add_item' do
+      expect(@order_1.item_orders.count).to eq(2)
+
+      io_3 = @order_1.add_item(@chain, 2)
+      expect(@order_1.item_orders.count).to eq(3)
+      expect(io_3.quantity).to eq(2)
     end
   end
 end
