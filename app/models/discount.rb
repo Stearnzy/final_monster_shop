@@ -1,5 +1,5 @@
 class Discount < ApplicationRecord
-  validates_presence_of :quantity, :percentage
+  validates_presence_of :quantity, :percentage, allow_blank: false
   validates_numericality_of :quantity, :only_integer => true,
                            :greater_than_or_equal_to => 1,
                            :message => "must be a number greater than 0."

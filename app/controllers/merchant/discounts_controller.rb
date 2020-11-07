@@ -12,12 +12,17 @@ class Merchant::DiscountsController < ApplicationController
   def create
     user = current_user
     @discount = user.merchant.discounts.new(discount_params)
-    begin
-      @discount.save!
-      flash[:success] = "Discount created successfully!"
-      redirect_to '/merchant/discounts'
-    rescue ActiveRecord::RecordInvalid => e
-      create_error_response(e)
+    if !params[:discount][:percentage].empty? && !params[:discount][:quantity].empty?
+      begin
+          @discount.save!
+          flash[:success] = "Discount created successfully!"
+          redirect_to '/merchant/discounts'
+      rescue ActiveRecord::RecordInvalid => e
+        create_error_response(e)
+        render :new
+      end
+    else
+      flash[:error] = "Fields cannot be empty"
       render :new
     end
   end
@@ -34,4 +39,11 @@ private
   def create_error_response(error)
       flash[:error] = error.message.delete_prefix('Validation failed: ')
   end
+
+  # def check_empty
+  #   if params[:discount][:percentage].empty? || params[:discount][:quantity].empty?
+  #     flash[:error] = "Fields cannot be empty"
+  #     render :new
+  #   end
+  # end
 end
