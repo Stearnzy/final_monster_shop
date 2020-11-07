@@ -2,7 +2,7 @@
 
 <%= form_with model: [:merchant, @discount], local: true do |f| %>
   <%= f.label :number_of_items_required %>
-  <%= f.number_field :quantity %><br>
+  <%= f.number_field :quantity, min: 1 %><br>
 
   <%= f.label :percent_off %>
   <%= f.number_field :percentage, min: 1, max: 100 %>%<br>
