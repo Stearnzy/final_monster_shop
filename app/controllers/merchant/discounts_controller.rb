@@ -4,6 +4,9 @@ class Merchant::DiscountsController < ApplicationController
   def index
   end
 
+  def new
+  end
+
 private
   def require_merchant
     render file: "/public/404" unless current_merchant?
