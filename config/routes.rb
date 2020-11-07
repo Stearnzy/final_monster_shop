@@ -74,7 +74,7 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#show'
     resources :items, execpt: [:show]
 
-    resources :discounts, only: [:index]
+    resources :discounts, only: [:index, :new]
 
     get '/orders/:order_id', to: 'orders#show'
     patch '/orders/:id', to: 'orders#update', as: :order
