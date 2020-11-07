@@ -3,6 +3,7 @@ class ItemOrder <ApplicationRecord
 
   belongs_to :item
   belongs_to :order
+  belongs_to :discount, optional: true
 
   enum status: %w(pending unfulfilled fulfilled)
 
