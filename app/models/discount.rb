@@ -9,5 +9,4 @@ class Discount < ApplicationRecord
                            :message => "must be a number between 1 and 100."
 
   belongs_to :merchant
-  has_many :item_orders
 end
