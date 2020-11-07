@@ -25,8 +25,8 @@ describe "As a merchant employee" do
       visit '/merchant/discounts/new'
 
       expect(page).to have_content('Create Discount')
-      expect(page).to have_field(:quantity)
-      expect(page).to have_field(:discount)
+      expect(page).to have_field('discount[quantity]')
+      expect(page).to have_field('discount[percentage]')
     end
   end
 end

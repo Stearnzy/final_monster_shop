@@ -5,6 +5,8 @@ class Merchant::DiscountsController < ApplicationController
   end
 
   def new
+    user = current_user
+    @discount = user.merchant.discounts.new
   end
 
 private
