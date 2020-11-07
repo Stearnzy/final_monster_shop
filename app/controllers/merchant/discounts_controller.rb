@@ -9,6 +9,10 @@ class Merchant::DiscountsController < ApplicationController
     @discount = user.merchant.discounts.new
   end
 
+  def create
+    
+  end
+
 private
   def require_merchant
     render file: "/public/404" unless current_merchant?

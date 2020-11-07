@@ -28,5 +28,21 @@ describe "As a merchant employee" do
       expect(page).to have_field('discount[quantity]')
       expect(page).to have_field('discount[percentage]')
     end
+
+    it "I cannot enter a number outside of 1-100 in the percentage field" do
+      visit '/merchant/discounts/new'
+
+      fill_in 'discount[quantity]', with: 10
+      fill_in 'discount[percentage]', with: 101
+      click_button 'Create Discount'
+
+      # expect(page).to have_content  FLASH
+
+      # Finish me!
+
+      # Test for if percent is less than 1
+      # Test for if quantity is less than 0
+      # Test for if either entry is left blank
+    end
   end
 end
