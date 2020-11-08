@@ -38,8 +38,9 @@ describe "As a merchant employee" do
       click_button 'Update Discount'
 
       expect(current_path).to eq('/merchant/discounts')
+      expect(page).to have_content('Discount updated successfully!')
+
       within "#discount-#{@discount.id}" do
-        expect(page).to have_content('Discount updated successfully!')
         expect(page).to have_content('10')
         expect(page).to have_content('10%')
       end
@@ -82,7 +83,7 @@ describe "As a merchant employee" do
 
       expect(page).to have_content('Fields cannot be empty')
 
-      visit "/merchant/discounts/"
+      visit "/merchant/discounts/#{@discount.id}/edit"
       fill_in 'discount[quantity]', with: ""
       fill_in 'discount[percentage]', with: 25
       click_button 'Update Discount'
