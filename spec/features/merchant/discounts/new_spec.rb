@@ -29,6 +29,20 @@ describe "As a merchant employee" do
       expect(page).to have_field('discount[percentage]')
     end
 
+    it "Submitting valid information redirects me to the discount index page where I
+        see the discount's ID, item threshold and percentage of the discount" do
+      visit '/merchant/discounts/new'
+
+      fill_in 'discount[quantity]', with: 5
+      fill_in 'discount[percentage]', with: 10
+      click_button 'Create Discount'
+
+      expect(current_path).to eq('/merchant/discounts')
+      expect(page).to have_content('Discount created successfully!')
+      expect(page).to have_content('5')
+      expect(page).to have_content('10%')
+    end
+
     it "I cannot enter a number outside of 1-100 in the percentage field" do
       visit '/merchant/discounts/new'
 
@@ -60,18 +74,16 @@ describe "As a merchant employee" do
 
     it "I cannot leave either field blank" do
       visit '/merchant/discounts/new'
-
       fill_in 'discount[quantity]', with: 10
       click_button 'Create Discount'
 
       expect(page).to have_content('Fields cannot be empty')
 
-      fill_in 'discount[quantity]', with: ""
+      visit '/merchant/discounts/new'
       fill_in 'discount[percentage]', with: 25
       click_button 'Create Discount'
 
       expect(page).to have_content('Fields cannot be empty')
-
     end
   end
 end
