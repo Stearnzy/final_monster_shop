@@ -17,7 +17,7 @@
       <td><p><%= discount.id %></p></td>
       <td><p><%= discount.quantity %></p></td>
       <td><p><%= discount.percentage %>%</p></td>
-      <td><p><%= link_to "Edit Discount", '/merchant/discounts/edit' %></p></td>
+      <td><p><%= link_to "Edit Discount", "/merchant/discounts/#{discount.id}/edit" %></p></td>
     </tr>
     <% end %>
   </table>
