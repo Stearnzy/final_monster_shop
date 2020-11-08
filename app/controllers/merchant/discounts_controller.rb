@@ -50,6 +50,13 @@ class Merchant::DiscountsController < ApplicationController
     end
   end
 
+  def destroy
+    discount = Discount.find(params[:id])
+    discount.destroy
+    flash[:success] = "Discount successfully deleted"
+    redirect_to '/merchant/discounts'
+  end
+
 private
   def require_merchant
     render file: "/public/404" unless current_merchant?
