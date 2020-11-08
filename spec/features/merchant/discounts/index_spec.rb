@@ -18,6 +18,8 @@ describe "As a merchant employee" do
         })
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merch_employee)
+
+      @discount = @bike_shop.discounts.create!(quantity: 10, percentage: 5)
     end
 
     it "I see a link to create a discount" do
@@ -30,6 +32,29 @@ describe "As a merchant employee" do
       visit '/merchant/discounts'
       click_link('Create New Discount')
       expect(current_path).to eq('/merchant/discounts/new')
+    end
+
+    it "Submitting valid information redirects me to the discount index page where I
+      see the discount's ID, item threshold and percentage of the discount" do
+      visit '/merchant/discounts'
+      expect(page).to have_content('My Discounts')
+      expect(page).to have_content('Discount ID')
+      expect(page).to have_content('Minimum Quantity')
+      expect(page).to have_content('Percent Off')
+
+      within "#discount-#{@discount.id}" do
+        expect(page).to have_content("#{@discount.id}")
+        expect(page).to have_content('10')
+        expect(page).to have_content('5%')
+      end
+    end
+
+    it "I see a button to edit a discount" do
+      visit "/merchant/discounts"
+
+      within "#discount-#{@discount.id}" do
+        expect(page).to have_link('Edit Discount')
+      end
     end
   end
 end
