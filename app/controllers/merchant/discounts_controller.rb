@@ -33,6 +33,23 @@ class Merchant::DiscountsController < ApplicationController
     @discount = Discount.find(params[:id])
   end
 
+  def update
+    @discount = Discount.find(params[:id])
+    if !params[:discount][:percentage].empty? && !params[:discount][:quantity].empty?
+      begin
+          @discount.update!(discount_params)
+          flash[:success] = "Discount updated successfully!"
+          redirect_to '/merchant/discounts'
+      rescue ActiveRecord::RecordInvalid => e
+        create_error_response(e)
+        render :edit
+      end
+    else
+      flash[:error] = "Fields cannot be empty"
+      render :edit
+    end
+  end
+
 private
   def require_merchant
     render file: "/public/404" unless current_merchant?
