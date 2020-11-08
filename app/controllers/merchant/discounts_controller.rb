@@ -41,11 +41,4 @@ private
   def create_error_response(error)
       flash[:error] = error.message.delete_prefix('Validation failed: ')
   end
-
-  # def check_empty
-  #   if params[:discount][:percentage].empty? || params[:discount][:quantity].empty?
-  #     flash[:error] = "Fields cannot be empty"
-  #     render :new
-  #   end
-  # end
 end

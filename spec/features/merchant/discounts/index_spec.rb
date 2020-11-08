@@ -56,5 +56,11 @@ describe "As a merchant employee" do
         expect(page).to have_link('Edit Discount')
       end
     end
+
+    it "Clicking the edit discount button takes me to the edit discout page" do
+      visit "/merchant/discounts"
+      click_link "Edit Discount"
+      expect(current_path).to eq('/merchant/discounts/edit')
+    end
   end
 end
