@@ -59,7 +59,11 @@ describe "As a merchant employee" do
 
     it "Clicking the edit discount button takes me to the edit discout page" do
       visit "/merchant/discounts"
-      click_link "Edit Discount"
+
+      within "#discount-#{@discount.id}" do
+        click_link "Edit Discount"
+      end
+      
       expect(current_path).to eq('/merchant/discounts/edit')
     end
   end
