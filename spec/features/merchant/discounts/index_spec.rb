@@ -53,18 +53,43 @@ describe "As a merchant employee" do
       visit "/merchant/discounts"
 
       within "#discount-#{@discount.id}" do
-        expect(page).to have_link('Edit Discount')
+        expect(page).to have_link('Edit')
       end
     end
 
-    it "Clicking the edit discount button takes me to the edit discout page" do
+    it "Clicking the edit link takes me to the edit discout page" do
       visit "/merchant/discounts"
 
       within "#discount-#{@discount.id}" do
-        click_link "Edit Discount"
+        click_link "Edit"
       end
-      
-      expect(current_path).to eq('/merchant/discounts/edit')
+
+      expect(current_path).to eq("/merchant/discounts/#{@discount.id}/edit")
+    end
+
+    it "I see a button to delete a discount" do
+      visit "/merchant/discounts"
+
+      within "#discount-#{@discount.id}" do
+        expect(page).to have_link('Delete')
+      end
+    end
+
+    it "Clicking the delete link redirects me to the discounts index page and I
+        no longer see that discount" do
+      visit "/merchant/discounts"
+
+      expect(page).to have_content("#{@discount.id}")
+      expect(page).to have_content("#{@discount.quantity}")
+      expect(page).to have_content("#{@discount.percentage}%")
+
+      within "#discount-#{@discount.id}" do
+        click_link('Delete')
+      end
+
+      expect(page).to_not have_content("#{@discount.id}")
+      expect(page).to_not have_content("#{@discount.quantity}")
+      expect(page).to_not have_content("#{@discount.percentage}%")
     end
   end
 end
