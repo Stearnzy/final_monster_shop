@@ -72,9 +72,9 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     get '/', to: 'dashboard#show'
-    resources :items, execpt: [:show]
+    resources :items, except: [:show]
 
-    resources :discounts
+    resources :discounts, except: [:show]
 
     get '/orders/:order_id', to: 'orders#show'
     patch '/orders/:id', to: 'orders#update', as: :order
