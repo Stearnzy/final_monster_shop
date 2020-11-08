@@ -29,5 +29,65 @@ describe "As a merchant employee" do
       expect(find_field('discount[quantity]').value).to eq("#{@discount.quantity}")
       expect(find_field('discount[percentage]').value).to eq("#{@discount.percentage}")
     end
+
+    it "Submitting valid information redirects me to the discount index page where I
+        see the updated information" do
+      visit "/merchant/discounts/#{@discount.id}/edit"
+
+      fill_in 'discount[percentage]', with: 10
+      click_button 'Update Discount'
+
+      expect(current_path).to eq('/merchant/discounts')
+      within "#discount-#{@discount.id}" do
+        expect(page).to have_content('Discount updated successfully!')
+        expect(page).to have_content('10')
+        expect(page).to have_content('10%')
+      end
+    end
+
+    it "I cannot enter a number outside of 1-100 in the percentage field" do
+      visit "/merchant/discounts/#{@discount.id}/edit"
+
+      fill_in 'discount[quantity]', with: 10
+      fill_in 'discount[percentage]', with: 101
+      click_button 'Update Discount'
+
+      expect(page).to have_content("Edit Discount")
+      expect(page).to have_content("Percentage must be a number between 1 and 100.")
+
+      fill_in 'discount[quantity]', with: 10
+      fill_in 'discount[percentage]', with: -1
+      click_button 'Update Discount'
+
+      expect(page).to have_content("Edit Discount")
+      expect(page).to have_content("Percentage must be a number between 1 and 100.")
+    end
+
+    it "I cannot enter a number less than 1 in the quantity field" do
+      visit "/merchant/discounts/#{@discount.id}/edit"
+
+      fill_in 'discount[quantity]', with: 0
+      fill_in 'discount[percentage]', with: 25
+      click_button 'Update Discount'
+
+      expect(page).to have_content("Edit Discount")
+      expect(page).to have_content("Quantity must be a number greater than 0.")
+    end
+
+    it "I cannot leave either field blank" do
+      visit "/merchant/discounts/#{@discount.id}/edit"
+      fill_in 'discount[quantity]', with: 10
+      fill_in 'discount[percentage]', with: ""
+      click_button 'Update Discount'
+
+      expect(page).to have_content('Fields cannot be empty')
+
+      visit "/merchant/discounts/"
+      fill_in 'discount[quantity]', with: ""
+      fill_in 'discount[percentage]', with: 25
+      click_button 'Update Discount'
+
+      expect(page).to have_content('Fields cannot be empty')
+    end
   end
 end
