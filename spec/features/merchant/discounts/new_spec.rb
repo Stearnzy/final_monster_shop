@@ -58,22 +58,20 @@ describe "As a merchant employee" do
       expect(page).to have_content("Quantity must be a number greater than 0.")
     end
 
-    it "I cannot leave percentage field blank" do
+    it "I cannot leave either field blank" do
       visit '/merchant/discounts/new'
 
       fill_in 'discount[quantity]', with: 10
       click_button 'Create Discount'
 
       expect(page).to have_content('Fields cannot be empty')
-    end
 
-    it "I cannot leave quantity field blank" do
-      visit '/merchant/discounts/new'
-
-      fill_in 'discount[percentage]', with: 10
+      fill_in 'discount[quantity]', with: ""
+      fill_in 'discount[percentage]', with: 25
       click_button 'Create Discount'
 
       expect(page).to have_content('Fields cannot be empty')
+
     end
   end
 end

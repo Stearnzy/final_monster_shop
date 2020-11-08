@@ -2,6 +2,8 @@ class Merchant::DiscountsController < ApplicationController
   before_action :require_merchant
 
   def index
+    user = current_user
+    @discounts = Discount.where(merchant_id: user.merchant.id)
   end
 
   def new
