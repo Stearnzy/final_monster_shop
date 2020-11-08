@@ -25,6 +25,7 @@ describe "As a merchant employee" do
     it "I see the quantity and percentage fields prepopulated" do
       visit "/merchant/discounts/#{@discount.id}/edit"
 
+      expect(page).to have_content('Edit Discount')
       expect(find_field('discount[quantity]').value).to eq("#{@discount.quantity}")
       expect(find_field('discount[percentage]').value).to eq("#{@discount.percentage}")
     end
