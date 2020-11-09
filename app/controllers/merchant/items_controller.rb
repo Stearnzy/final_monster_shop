@@ -74,7 +74,7 @@ class Merchant::ItemsController < ApplicationController
     end
 
     begin
-      @item.update(item_params)
+      @item.update!(item_params)
       flash[:success] = 'Your item has been updated'
       redirect_to merchant_items_path
     rescue ActiveRecord::RecordInvalid => e
