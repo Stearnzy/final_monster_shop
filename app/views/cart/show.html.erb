@@ -31,7 +31,7 @@
           </td>
           <td>
             <center>
-              <p id="item-<%= item.id %>-quantity"><%=quantity%></p>
+              <p><%=quantity%></p>
               <p><%= link_to "Remove", "/cart/#{item.id}",method: :delete %></p>
               <p><%= button_to "Increase Quantity", cart_update_path(item.id, direction: :increase), method: :patch, local: true %></p>
               <p><%= button_to "Decrease Quantity", cart_update_path(item.id, direction: :decrease), method: :patch, local: true %></p>
