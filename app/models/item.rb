@@ -35,4 +35,13 @@ class Item <ApplicationRecord
   def toggle_active
     toggle(:active?)
   end
+
+  def applicable_discount(quantity)
+    merchant.discount_list.find_by('discounts.quantity <= ?', quantity)
+  end
+
+  # def discountable?(quantity)
+  #   merchant.discounts
+  #   quantity >= item.merchant.discounts.
+  # end
 end
