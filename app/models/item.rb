@@ -39,9 +39,4 @@ class Item <ApplicationRecord
   def applicable_discount(quantity)
     merchant.discount_list.find_by('discounts.quantity <= ?', quantity)
   end
-
-  # def discountable?(quantity)
-  #   merchant.discounts
-  #   quantity >= item.merchant.discounts.
-  # end
 end
