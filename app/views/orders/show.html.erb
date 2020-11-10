@@ -47,7 +47,7 @@
 <h3 align = "center">Item Count: <%= @order.item_count %></h3>
 <center>
   <table>
-    <tr>
+    <tr id="order-info-header">
       <th>Photo</th>
       <th>Description</th>
       <th>Item</th>
@@ -81,6 +81,10 @@
 
 <section id="grandtotal">
   <p>Total: <%=number_to_currency(@order.grandtotal)%></p>
+  <% if @order.item_orders.any? {|io| !io.available_discount.nil?} %>
+    <p><u>You Saved <%= number_to_currency(@order.total_discounts) %></u></p>
+    <p><b>Grand Total: <%= number_to_currency(@order.total_after_discount) %></b></p>
+  <% end %>
 </section>
 <section id="datecreated">
   <p> <%= @order.created_at%></p>
