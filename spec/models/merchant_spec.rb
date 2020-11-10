@@ -171,5 +171,14 @@ describe Merchant, type: :model do
 
       expect(merchant_item_orders[0]).to eq(@item_order_9)
     end
+
+    it "#discount_list" do
+      @print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80_203)
+      @discount_1 = @print_shop.discounts.create!(quantity: 20, percentage: 15)
+      @discount_2 = @print_shop.discounts.create!(quantity: 10, percentage: 10)
+      @discount_3 = @print_shop.discounts.create!(quantity: 35, percentage: 25)
+
+      expect(@print_shop.discount_list).to eq([@discount_3, @discount_1, @discount_2])
+    end
   end
 end

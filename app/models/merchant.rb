@@ -47,4 +47,8 @@ class Merchant <ApplicationRecord
   def all_items_active
     items.update_all(active?: true)
   end
+
+  def discount_list
+    discounts.order(quantity: :desc)
+  end
 end

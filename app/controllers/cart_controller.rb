@@ -32,15 +32,15 @@ class CartController < ApplicationController
       else
         flash[:error] = 'There are no more items in stock!'
       end
-      redirect_to '/cart'
 
     when 'decrease'
 
       cart[item.id.to_s] -= 1
       if cart[item.id.to_s] <= 0
-        remove_item
+        session[:cart].delete(params[:item_id])
       end
     end
+    redirect_to '/cart'
   end
 
   private

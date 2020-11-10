@@ -20,7 +20,16 @@
     </tr>
   <% end %>
 </table>
-<h3 align = "right">Total: <%= number_to_currency(cart.total)%></h3>
+
+<section id="totals">
+  <h3 align = "right">Total: <%= number_to_currency(cart.total)%></h3>
+  <% if cart.discount_subtotal != 0 %>
+    <h3 align = "right">Savings: <%= number_to_currency(cart.discount_subtotal)%></h3>
+    <h3 align = "right">Grand Total: <b><%= number_to_currency(cart.post_discount_total) %></b></h3>
+  <% end %>
+</section>
+
+
 <center>
   <h2>Shipping Info:</h2>
   <%= form_tag "/orders", method: :post do %>

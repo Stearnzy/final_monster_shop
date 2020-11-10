@@ -14,7 +14,6 @@
       <td><p><%= @order.date_created %> </p></td>
       <td><p><%= @order.date_updated %> </p></td>
       <td><p><%= @order.status %> </p></td>
-
     </tr>
   </table>
 </section>
@@ -47,7 +46,7 @@
 <h3 align = "center">Item Count: <%= @order.item_count %></h3>
 <center>
   <table>
-    <tr>
+    <tr id="order-info-header">
       <th>Photo</th>
       <th>Description</th>
       <th>Item</th>
@@ -56,6 +55,9 @@
       <th>Price</th>
       <th>Quantity</th>
       <th>Subtotal</th>
+      <% if @order.item_orders.any? {|io| !io.available_discount.nil?} %>
+        <th>Discount</th>
+      <% end %>
     </tr>
   <% @order.item_orders.each do |item_order|%>
     <tr>
@@ -68,6 +70,9 @@
         <td><p><%= number_to_currency(item_order.price)%></p></td>
         <td><p><%= item_order.quantity%></p></td>
         <td><p><%= number_to_currency(item_order.subtotal)%></p></td>
+        <% if !item_order.available_discount.nil? %>
+          <td><p>-<%= number_to_currency(item_order.apply_discount) %></p></td>
+        <% end %>
       </section>
     </tr>
   <% end %>
@@ -75,7 +80,12 @@
 
 <section id="grandtotal">
   <p>Total: <%=number_to_currency(@order.grandtotal)%></p>
+  <% if @order.item_orders.any? {|io| !io.available_discount.nil?} %>
+    <p><u>You Saved <%= number_to_currency(@order.total_discounts) %></u></p>
+    <p><b>Grand Total: <%= number_to_currency(@order.total_after_discount) %></b></p>
+  <% end %>
 </section>
+
 <section id="datecreated">
   <p> <%= @order.created_at%></p>
 </section>

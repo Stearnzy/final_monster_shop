@@ -9,6 +9,7 @@
         <th>Price</th>
         <th>Quantity</th>
         <th>Subtotal</th>
+        <th> </th>
       </tr>
       <% @items.each do |item,quantity| %>
         <tr id= "cart-item-<%=item.id%>">
@@ -39,12 +40,24 @@
           <td>
             <p><%=number_to_currency(cart.subtotal(item))%></p>
           </td>
+          <td>
+            <% if !item.applicable_discount(quantity).nil? %>
+              <p>-<%= number_to_currency(item.discount_applied(quantity)) %></p>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </table>
-    <p>Total: <%= number_to_currency(cart.total) %></p>
-    <p><%= link_to "Empty Cart", "/cart", method: :delete %></p>
-    <p><%= link_to "Checkout", "/orders/new", method: :get %></p>
+
+    <section id="totals">
+      <p>Total: <%= number_to_currency(cart.total) %></p>
+      <% if cart.discount_subtotal != 0 %>
+        <p>You saved <%= number_to_currency(cart.discount_subtotal) %></p>
+        <p>After discount: <b><%= number_to_currency(cart.post_discount_total) %></b></p>
+      <% end %>
+      <p><%= link_to "Empty Cart", "/cart", method: :delete %></p>
+      <p><%= link_to "Checkout", "/orders/new", method: :get %></p>
+    </section>
 
   </center>
 <% else %>

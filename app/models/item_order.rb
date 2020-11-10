@@ -19,4 +19,14 @@ class ItemOrder <ApplicationRecord
   def subtotal
     price * quantity
   end
+
+  def available_discount
+    self.item.merchant.discount_list.find_by('discounts.quantity <= ?', self.quantity)
+  end
+
+  def apply_discount
+    if !self.available_discount.nil?
+      (self.item.price * (self.available_discount.percentage.to_f / 100)) * self.quantity
+    end
+  end
 end

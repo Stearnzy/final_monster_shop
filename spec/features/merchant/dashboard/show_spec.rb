@@ -127,5 +127,12 @@ describe "As a merchant employee" do
       expect(current_path).to eq("/merchant/items")
     end
 
+    it 'I see a link to view my discounts' do
+      visit "/merchant"
+
+      expect(page).to have_link('See Your Discounts')
+      click_link('See Your Discounts')
+      expect(current_path).to eq('/merchant/discounts')
+    end
   end
 end

@@ -58,4 +58,14 @@ class Order < ApplicationRecord
   def merchant_item_count(merch_id)
     item_orders.joins(:item).where(items: { merchant_id: merch_id }).sum(:quantity)
   end
+
+  def total_discounts
+    item_orders.map do |io|
+      io.apply_discount.to_f
+    end.sum
+  end
+
+  def total_after_discount
+    self.grandtotal - self.total_discounts
+  end
 end

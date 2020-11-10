@@ -12,6 +12,16 @@ RSpec.describe Cart do
         @ogre.id.to_s => 1,
         @giant.id.to_s => 2
         })
+
+      @print_shop = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80_203)
+      @bike_shop = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80_203)
+
+      @tire = @bike_shop.items.create(name: 'Gatorskins', description: "They'll never pop!", price: 100, image: 'https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588', inventory: 12)
+      @paper = @print_shop.items.create(name: 'Lined Paper', description: 'Great for writing on!', price: 20, image: 'https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png', inventory: 25)
+      @pencil = @print_shop.items.create(name: 'Yellow Pencil', description: 'You can write on paper with it!', price: 2, image: 'https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg', inventory: 100)
+
+      @five_for_ten = @print_shop.discounts.create(quantity: 5, percentage: 10)
+      @ten_for_twenty_five = @print_shop.discounts.create(quantity: 10, percentage: 25)
     end
 
     it '.contents' do
@@ -57,6 +67,28 @@ RSpec.describe Cart do
       expect(@cart.[]=(@giant.id.to_s, 5)).to eq(5)
       expect(@cart.[]=(@ogre.id.to_s, 10)).to eq(10)
       expect(@cart.[]=(@hippo.id.to_s, 2)).to eq(2)
+    end
+
+    it '#discount_subtotal' do
+      cart = Cart.new({
+        @paper.id => 12,
+        @pencil.id => 6,
+        @tire.id => 7
+        })
+
+      expect(cart.discount_subtotal).to eq(61.2)
+    end
+
+    it '#post_discount_total' do
+      cart = Cart.new({
+        @paper.id => 12,
+        @pencil.id => 6,
+        @tire.id => 7
+        })
+
+      expect(cart.total).to eq(952)
+      expect(cart.discount_subtotal).to eq(61.2)
+      expect(cart.post_discount_total).to eq(890.8)
     end
   end
 end
