@@ -124,5 +124,17 @@ describe Order, type: :model do
 
       expect(@order_1.total_discounts).to eq(23.5)
     end
+
+    it '#total_after_discount' do
+      ten_for_five = @meg.discounts.create(quantity: 10, percentage: 5)
+      fifteen_for_twenty = @meg.discounts.create(quantity: 15, percentage: 20)
+      io_3 = @order_1.item_orders.create!(item: @pedal, price: @pedal.price, quantity: 11)
+      io_4 = @order_1.item_orders.create!(item: @reflector, price: @reflector.price, quantity: 18)
+
+      expect(@order_1.grandtotal).to eq(430.0)
+      expect(@order_1.total_discounts).to eq(23.5)
+
+      expect(@order_1.total_after_discount).to eq(406.5)
+    end
   end
 end
