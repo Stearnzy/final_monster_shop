@@ -28,6 +28,7 @@ describe ItemOrder, type: :model do
 
       @meg = Merchant.create(name: "Meg's Bike Shop", address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80_203)
       @tire = @meg.items.create(name: 'Gatorskins', description: "They'll never pop!", price: 100, image: 'https://www.rei.com/media/4e1f5b05-27ef-4267-bb9a-14e35935f218?size=784x588', inventory: 12)
+      @handlebars = @meg.items.create(name: "Handle Bars", description: "Grip it", price: 50, image: "https://cdn.shopify.com/s/files/1/2191/9809/products/bullhorn2__95733.1479507031.1280.960_1024x1024.jpg?v=1501527872", inventory: 243)
       @order_1 = @user.orders.create!(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17_033)
       @item_order_1 = @order_1.item_orders.create!(item: @tire, price: @tire.price, quantity: 2)
     end
@@ -56,6 +57,22 @@ describe ItemOrder, type: :model do
       expect(@item_order_1.status).to eq('unfulfilled')
 
       expect(@order_1.status).to eq('pending')
+    end
+
+    it "#available_discount" do
+      @five_for_ten = @meg.discounts.create!({quantity: 5, percentage: 10})
+      @item_order_2 = @order_1.item_orders.create!(item: @handlebars, price: @handlebars.price, quantity: 5)
+
+      expect(@item_order_1.available_discount).to eq(nil)
+      expect(@item_order_2.available_discount).to eq(@five_for_ten)
+    end
+
+    it "#apply_discount" do
+      @five_for_ten = @meg.discounts.create!({quantity: 5, percentage: 10})
+      @item_order_2 = @order_1.item_orders.create!(item: @handlebars, price: @handlebars.price, quantity: 5)
+
+      expect(@item_order_1.apply_discount).to eq(0)
+      expect(@item_order_2.apply_discount).to eq(25.0)
     end
   end
 end
