@@ -80,7 +80,7 @@ describe 'Order show page' do
       expect(page).to have_content("Your order has been cancelled.")
 
       visit profile_orders_show_path(@order_1.id)
-      
+
       within ".order-info" do
         expect(page).to have_content('cancelled')
       end
@@ -92,6 +92,13 @@ describe 'Order show page' do
       within "#item-#{@item_order_2.item_id}" do
         expect(page).to have_content('unfulfilled')
       end
+    end
+
+    it "When I have enough items in my cart for a discount, I see that discount applied" do
+      @three_for_five = @mike.discounts.create(quantity: 3, percentage: 5)
+      visit profile_orders_show_path(@order_1.id)
+
+      require "pry"; binding.pry
     end
 
     describe 'As a merchant user' do

@@ -56,6 +56,9 @@
       <th>Price</th>
       <th>Quantity</th>
       <th>Subtotal</th>
+      <% if @order.item_orders.any? {|io| !io.available_discount.nil?} %>
+        <th>Discount</th>
+      <% end %>
     </tr>
   <% @order.item_orders.each do |item_order|%>
     <tr>
@@ -68,6 +71,9 @@
         <td><p><%= number_to_currency(item_order.price)%></p></td>
         <td><p><%= item_order.quantity%></p></td>
         <td><p><%= number_to_currency(item_order.subtotal)%></p></td>
+        <% if !item_order.available_discount.nil? %>
+          <td><p>-<%= number_to_currency(item_order.apply_discount) %></p></td>
+        <% end %>
       </section>
     </tr>
   <% end %>

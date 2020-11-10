@@ -196,9 +196,10 @@ RSpec.describe 'Cart show' do
     it "I see that discount applied automatically only to that item" do
       visit '/cart'
       within "#cart-item-#{@paper.id}" do
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
+        3.times do
+          click_button('Increase Quantity')
+        end
+
         expect(page).to have_content('4')
         expect(page).to_not have_content('-$')
 
@@ -219,14 +220,10 @@ RSpec.describe 'Cart show' do
     it 'Discount gets replaced by better discount when quantity passes threshold' do
       visit '/cart'
       within "#cart-item-#{@paper.id}" do
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
+        8.times do
+          click_button('Increase Quantity')
+        end
+
         expect(page).to have_content('9')
         expect(page).to have_content('-$18.00')
 
@@ -244,10 +241,9 @@ RSpec.describe 'Cart show' do
       end
 
       within "#cart-item-#{@paper.id}" do
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
+        4.times do
+          click_button('Increase Quantity')
+        end
         expect(page).to have_content('-$10.00')
       end
 
@@ -259,23 +255,17 @@ RSpec.describe 'Cart show' do
     it "Discounts vary between items, even of same merchants" do
       visit '/cart'
       within "#cart-item-#{@paper.id}" do
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
+        9.times do
+          click_button('Increase Quantity')
+        end
+
         expect(page).to have_content('-$50.00')
       end
 
       within "#cart-item-#{@pencil.id}" do
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
+        4.times do
+          click_button('Increase Quantity')
+        end
         expect(page).to have_content('-$1.00')
       end
     end
@@ -286,9 +276,9 @@ RSpec.describe 'Cart show' do
       expect(@items_in_cart).to eq([@paper, @tire, @pencil])
 
       within "#cart-item-#{@paper.id}" do
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
-        click_button('Increase Quantity')
+        3.times do
+          click_button('Increase Quantity')
+        end
         expect(page).to_not have_content('-$')
       end
 
