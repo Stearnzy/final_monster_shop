@@ -14,7 +14,6 @@
       <td><p><%= @order.date_created %> </p></td>
       <td><p><%= @order.date_updated %> </p></td>
       <td><p><%= @order.status %> </p></td>
-
     </tr>
   </table>
 </section>
@@ -86,6 +85,7 @@
     <p><b>Grand Total: <%= number_to_currency(@order.total_after_discount) %></b></p>
   <% end %>
 </section>
+
 <section id="datecreated">
   <p> <%= @order.created_at%></p>
 </section>
