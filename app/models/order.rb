@@ -64,4 +64,8 @@ class Order < ApplicationRecord
       io.apply_discount.to_f
     end.sum
   end
+
+  def total_after_discount
+    self.grandtotal - self.total_discounts
+  end
 end
