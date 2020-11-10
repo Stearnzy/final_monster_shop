@@ -80,5 +80,17 @@ describe 'Order show page' do
         expect(page).to have_content("$24.00")
       end
     end
+
+    it "if there is a discount applied, the grand total reflects this" do
+      three_for_five = @mike.discounts.create!(quantity: 3, percentage: 5)
+
+      expect(@order_1.grandtotal).to eq(260.0)
+
+      visit '/profile/orders'
+
+      within "#order-#{@order_1.id}" do
+        expect(page).to have_content("$257.00")
+      end
+    end
   end
 end
