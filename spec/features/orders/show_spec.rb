@@ -214,10 +214,18 @@ describe 'Order show page' do
       @item_order_1 = @order_1.item_orders.create!(item_id: @tire.id, price: @tire.price, quantity: 2)
       @item_order_2 = @order_1.item_orders.create!(item_id: @paper.id, price: @paper.price, quantity: 30)
       @item_order_3 = @order_1.item_orders.create!(item_id: @pencil.id, price: @pencil.price, quantity: 50)
+
+      @order_2 = Order.create!(name: 'second order', address: '754 Main St', city: 'There', state: 'WY', zip: '12421', user_id: @user.id)
+      @item_order_4 = @order_2.item_orders.create!(item_id: @paper.id, price: @paper.price, quantity: 1)
+      @item_order_5 = @order_2.item_orders.create!(item_id: @pencil.id, price: @pencil.price, quantity: 2)
     end
 
     it "Discounts show up on the order show page" do
       visit profile_orders_show_path(@order_1.id)
+
+      within '#order-info-header' do
+        expect(page).to have_content("Discount")
+      end
 
       within "#item-#{@item_order_1.item_id}" do
         expect(page).to_not have_content("-$")
@@ -235,6 +243,20 @@ describe 'Order show page' do
         expect(page).to have_content('Total: $900.00')
         expect(page).to have_content('You Saved $85.00')
         expect(page).to have_content('Grand Total: $815.00')
+      end
+    end
+
+    it "Orders that do not hit any discounts do not see discounted grand total fields
+        or table headers that signify discount values" do
+      visit profile_orders_show_path(@order_2.id)
+
+      within '#order-info-header' do
+        expect(page).to_not have_content("Discount")
+      end
+
+      within "#grandtotal" do
+        expect(page).to_not have_content('You Saved')
+        expect(page).to_not have_content('Grand Total:')
       end
     end
   end
