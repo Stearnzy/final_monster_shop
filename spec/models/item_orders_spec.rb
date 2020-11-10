@@ -71,7 +71,7 @@ describe ItemOrder, type: :model do
       @five_for_ten = @meg.discounts.create!({quantity: 5, percentage: 10})
       @item_order_2 = @order_1.item_orders.create!(item: @handlebars, price: @handlebars.price, quantity: 5)
 
-      expect(@item_order_1.apply_discount).to eq(0)
+      expect(@item_order_1.apply_discount).to eq(nil)
       expect(@item_order_2.apply_discount).to eq(25.0)
     end
   end
