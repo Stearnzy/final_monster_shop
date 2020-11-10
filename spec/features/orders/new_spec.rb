@@ -115,5 +115,24 @@ describe 'As a visitor' do
         expect(page).to have_content('Grand Total: $259.00')
       end
     end
+
+    it 'does not apply discount to items not belonging to merchant who is running discount' do
+      @five_for_ten = @mike.discounts.create(quantity: 5, percentage: 10)
+
+      visit '/cart'
+
+      within "#cart-item-#{@tire.id}" do
+        5.times do
+          click_button('Increase Quantity')
+        end
+      end
+
+      click_link 'Checkout'
+
+      within '#totals' do
+        expect(page).to_not have_content('Savings:')
+        expect(page).to_not have_content('Grand Total:')
+      end
+    end
   end
 end
