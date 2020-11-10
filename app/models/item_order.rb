@@ -27,8 +27,6 @@ class ItemOrder <ApplicationRecord
   def apply_discount
     if !self.available_discount.nil?
       (self.item.price * (self.available_discount.percentage.to_f / 100)) * self.quantity
-    else
-      return 0
     end
   end
 end

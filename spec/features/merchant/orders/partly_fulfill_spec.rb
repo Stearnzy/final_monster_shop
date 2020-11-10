@@ -98,6 +98,5 @@ describe 'US 50-51: Merchant order fulfillment' do
       expect(page).to_not have_link('Fulfill')
       expect(page).to have_content('Cannot fulfill due to lack of inventory')
     end
-
   end
 end

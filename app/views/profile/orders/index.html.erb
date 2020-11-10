@@ -7,6 +7,10 @@
     <p>Date order was last updated: <%= order.date_updated %></p>
     <p>Order Status: <%= order.status %></p>
     <p>Quantity of items in order: <%= order.item_count %></p>
-    <p>Grand total: <%= number_to_currency(order.grandtotal) %></p>
+    <% if order.total_discounts == 0.0 %>
+      <p>Grand total: <%= number_to_currency(order.grandtotal) %></p>
+    <% else %>
+      <p>Grand total: <%= number_to_currency(order.total_after_discount) %></p>
+    <% end %>
   </section>
 <% end %>

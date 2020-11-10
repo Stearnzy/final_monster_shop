@@ -78,5 +78,17 @@ RSpec.describe Cart do
 
       expect(cart.discount_subtotal).to eq(61.2)
     end
+
+    it '#post_discount_total' do
+      cart = Cart.new({
+        @paper.id => 12,
+        @pencil.id => 6,
+        @tire.id => 7
+        })
+
+      expect(cart.total).to eq(952)
+      expect(cart.discount_subtotal).to eq(61.2)
+      expect(cart.post_discount_total).to eq(890.8)
+    end
   end
 end

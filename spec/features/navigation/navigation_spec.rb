@@ -88,6 +88,12 @@ RSpec.describe 'Site Navigation' do
 
         expect(page).to have_content("The page you were looking for doesn't exist.")
       end
+
+      it "does not allow visitor to see merchant discounts page" do
+        visit "/merchant/discounts"
+
+        expect(page).to have_content("The page you were looking for doesn't exist.")
+      end
     end
   end
 end

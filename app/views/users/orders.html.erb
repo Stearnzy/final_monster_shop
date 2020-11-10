@@ -17,7 +17,11 @@
     <td><%= order.date_updated %></td>
     <td><%= order.status %></td>
     <td><%= order.item_count %></td>
-    <td><%= number_to_currency(order.grandtotal) %></td>
+    <% if order.total_discounts == 0.0 %>
+      <td><%= number_to_currency(order.grandtotal) %></td>
+    <% else %>
+      <td><%= number_to_currency(order.total_after_discount) %></td>
+    <% end %>
   </tr>
   <% end  %>
 
