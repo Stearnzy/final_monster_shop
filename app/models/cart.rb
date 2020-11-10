@@ -39,4 +39,19 @@ class Cart
       Item.find(item_id).price * quantity
     end
   end
+
+  def discount_subtotal
+    total_discount = 0
+    @contents.each do |item_id, quantity|
+      item = Item.find(item_id)
+      if !item.applicable_discount(quantity).nil?
+        total_discount += item.discount_applied(quantity)
+      end
+    end
+    total_discount
+  end
+
+  def post_discount_total
+    total - discount_subtotal
+  end
 end

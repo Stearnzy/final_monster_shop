@@ -279,5 +279,33 @@ RSpec.describe 'Cart show' do
         expect(page).to have_content('-$1.00')
       end
     end
+
+    it "shows the total discount" do
+      visit '/cart'
+
+      expect(@items_in_cart).to eq([@paper, @tire, @pencil])
+
+      within "#cart-item-#{@paper.id}" do
+        click_button('Increase Quantity')
+        click_button('Increase Quantity')
+        click_button('Increase Quantity')
+        expect(page).to_not have_content('-$')
+      end
+
+      within "#totals" do
+        expect(page).to have_content("Total: $182.00")
+        expect(page).to_not have_content("You saved")
+      end
+
+      within "#cart-item-#{@paper.id}" do
+        click_button('Increase Quantity')
+      end
+
+      within "#totals" do
+        expect(page).to have_content("Total: $202.00")
+        expect(page).to have_content("You saved $10.00")
+        expect(page).to have_content("After discount: $192.00")
+      end
+    end
   end
 end
