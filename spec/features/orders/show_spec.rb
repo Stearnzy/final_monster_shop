@@ -94,13 +94,6 @@ describe 'Order show page' do
       end
     end
 
-    it "When I have enough items in my cart for a discount, I see that discount applied" do
-      @three_for_five = @mike.discounts.create(quantity: 3, percentage: 5)
-      visit profile_orders_show_path(@order_1.id)
-
-      require "pry"; binding.pry
-    end
-
     describe 'As a merchant user' do
       before :each do
         @mike = Merchant.create(name: 'Mikemart', address: '123 Bike Rd.', city: 'Denver', state: 'CO', zip: 80_203)
