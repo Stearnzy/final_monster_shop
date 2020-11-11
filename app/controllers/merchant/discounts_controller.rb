@@ -3,7 +3,7 @@ class Merchant::DiscountsController < ApplicationController
 
   def index
     user = current_user
-    @discounts = Discount.where(merchant_id: user.merchant.id)
+    @discounts = Discount.where(merchant_id: user.merchant.id).order(:percentage)
   end
 
   def new
