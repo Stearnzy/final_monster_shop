@@ -297,5 +297,29 @@ RSpec.describe 'Cart show' do
         expect(page).to have_content("After discount: $192.00")
       end
     end
+
+    it "if I don't trigger a discount, I don't see things a user with a discount would see" do
+      visit '/cart'
+
+      within "#cart-item-#{@paper.id}" do
+        expect(page).to_not have_content("You saved")
+        expect(page).to_not have_content("After discount:")
+      end
+
+      within "#cart-item-#{@tire.id}" do
+        expect(page).to_not have_content("You saved")
+        expect(page).to_not have_content("After discount:")
+      end
+
+      within "#cart-item-#{@pencil.id}" do
+        expect(page).to_not have_content("You saved")
+        expect(page).to_not have_content("After discount:")
+      end
+
+      within "#totals" do
+        expect(page).to_not have_content("You saved")
+        expect(page).to_not have_content("After discount:")
+      end
+    end
   end
 end
