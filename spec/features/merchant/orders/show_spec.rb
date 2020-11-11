@@ -113,9 +113,9 @@ describe "As a merchant" do
       visit merchant_path
 
       click_link("Order #{@order4.id}")
-
+save_and_open_page
       within '#table-heading' do
-        expect(page).to have_content('Discount Applied')
+        expect(page).to have_content('Applied Discount')
       end
 
       within "#item_order-#{@item_order1.id}" do
