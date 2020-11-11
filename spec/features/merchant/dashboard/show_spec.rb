@@ -134,5 +134,43 @@ describe "As a merchant employee" do
       click_link('See Your Discounts')
       expect(current_path).to eq('/merchant/discounts')
     end
+
+    it 'With no valid discounts active I do not see a Discounts Applied column' do
+      visit "/merchant"
+
+      within '#active-orders-heading' do
+        expect(page).to_not have_content('Discounts Applied')
+      end
+    end
+
+    it 'With an active discount that is not satisfied with any order, I do not see
+        a Discounts Applied column' do
+      ten_for_ten = @bike_shop.discounts.create(quantity: 10, percentage: 10)
+
+      visit "/merchant"
+
+      within '#active-orders-heading' do
+        expect(page).to_not have_content('Discounts Applied')
+      end
+    end
+
+    it 'With an active discount that IS satisfied with any order, I DO see a
+        Discounts Applied column along with how much was saved' do
+        five_for_ten = @bike_shop.discounts.create(quantity: 5, percentage: 10)
+
+        visit "/merchant"
+
+        within '#active-orders-heading' do
+          expect(page).to have_content('Discounts Applied')
+        end
+
+        within "#order-#{@order_1.id}" do
+          expect(page).to_not have_content('-$')
+        end
+
+        within "#order-#{@order_2.id}" do
+          expect(page).to have_content('-$')
+        end
+    end
   end
 end

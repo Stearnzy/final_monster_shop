@@ -21,7 +21,7 @@ class ItemOrder <ApplicationRecord
   end
 
   def available_discount
-    self.item.merchant.discount_list.find_by('discounts.quantity <= ?', self.quantity)
+    self.item.find_applicable_discount(self.quantity)
   end
 
   def apply_discount

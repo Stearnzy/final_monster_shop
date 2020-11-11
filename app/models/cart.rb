@@ -44,8 +44,8 @@ class Cart
     total_discount = 0
     @contents.each do |item_id, quantity|
       item = Item.find(item_id)
-      if !item.applicable_discount(quantity).nil?
-        total_discount += item.discount_applied(quantity)
+      if !item.find_applicable_discount(quantity).nil?
+        total_discount += item.calculate_discount(quantity)
       end
     end
     total_discount
