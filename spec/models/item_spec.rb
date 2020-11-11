@@ -126,13 +126,13 @@ describe Item, type: :model do
         })
     end
 
-    it '#applicable_discount' do
+    it '#find_applicable_discount' do
       discount = @bike_shop.discounts.create!(quantity: 75, percentage: 20)
 
-      expect(@cart.contents.first[0].applicable_discount(@cart.contents.first[1])).to eq(nil)
+      expect(@cart.contents.first[0].find_applicable_discount(@cart.contents.first[1])).to eq(nil)
 
       @cart[@handlebars] += 1
-      expect(@cart.contents.first[0].applicable_discount(@cart.contents.first[1])).to eq(discount)
+      expect(@cart.contents.first[0].find_applicable_discount(@cart.contents.first[1])).to eq(discount)
     end
   end
 end

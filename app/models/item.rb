@@ -36,11 +36,11 @@ class Item <ApplicationRecord
     toggle(:active?)
   end
 
-  def applicable_discount(quantity)
+  def find_applicable_discount(quantity)
     merchant.discount_list.find_by('discounts.quantity <= ?', quantity)
   end
 
-  def discount_applied(quantity)
-    (self.price * (self.applicable_discount(quantity).percentage.to_f / 100)) * quantity
+  def calculate_discount(quantity)
+    (self.price * (self.find_applicable_discount(quantity).percentage.to_f / 100)) * quantity
   end
 end
