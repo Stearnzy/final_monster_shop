@@ -34,13 +34,16 @@
 <h3 align = "center">Item Count: <%= @order.item_count %></h3>
 
 <table>
-  <tr>
+  <tr id="table-heading">
     <th>Photo</th>
     <th>Item</th>
     <th>Status</th>
     <th>Price</th>
     <th>Quantity</th>
     <th>Subtotal</th>
+    <% if @order.item_orders.any? {|io| !io.available_discount.nil?} %>
+      <th>Applied Discount</th>
+    <% end %>
   </tr>
   <% @order.merchant_item_orders(@user.merchant_id).each do |item_order|%>
     <tr id = "item_order-<%=item_order.id%>">
@@ -68,6 +71,9 @@
         <td>
           <p><%= number_to_currency(item_order.subtotal)%></p>
         </td>
+        <% if !item_order.available_discount.nil? %>
+          <td><p>-<%= number_to_currency(item_order.apply_discount) %></p></td>
+        <% end %>
       </section>
     </tr>
   <% end %>
