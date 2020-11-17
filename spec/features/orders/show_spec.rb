@@ -162,7 +162,7 @@ describe 'Order show page' do
     end
 
     it 'Visit order show page' do
-      visit merchant_path
+      visit '/merchant'
 
       click_link("Order #{@order4.id}")
 

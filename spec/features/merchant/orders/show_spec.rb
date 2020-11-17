@@ -72,7 +72,7 @@ describe "As a merchant" do
     end
 
     it "I see shipping information and order information" do
-      visit merchant_path
+      visit '/merchant'
 
       click_link("Order #{@order2.id}")
 
@@ -100,7 +100,7 @@ describe "As a merchant" do
     end
 
     it "When a Discount is not applied to any item in the order, no Applied Discount column shows" do
-      visit merchant_path
+      visit '/merchant'
 
       click_link("Order #{@order2.id}")
 
@@ -110,7 +110,7 @@ describe "As a merchant" do
     end
 
     it "When a Discount IS applied to any item in the order, I see a column for Applied Discount" do
-      visit merchant_path
+      visit '/merchant'
 
       click_link("Order #{@order4.id}")
 
