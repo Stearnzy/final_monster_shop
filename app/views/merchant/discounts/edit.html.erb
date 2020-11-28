@@ -1,6 +1,6 @@
 <h1>Edit Discount</h1>
 
-<%= form_with model: [:merchant, @discount], local: true, class: 'discount-edit' do |f| %>
+<%= form_with model: [:merchant, @discount], local: true, url: "/merchant/discounts/#{@discount.id}", class: 'discount-edit' do |f| %>
   <%= f.label :number_of_items_required %>
   <%= f.number_field :quantity, min: 1 %><br>
 

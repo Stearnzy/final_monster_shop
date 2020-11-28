@@ -83,25 +83,23 @@ Rails.application.routes.draw do
   namespace :merchant do
     get '/', to: 'dashboard#show'
 
-    # THESE NOT WORKING UNLESS USING RESOURCES...???
+    get '/items', to: 'items#index'
+    get '/items/new', to: 'items#new'
+    post '/items', to: 'items#create'
+    get '/items/:id/edit', to: 'items#edit'
+    patch '/items/:id', to: 'items#update'
+    put '/items/:id', to: 'items#update'
+    delete '/items/:id', to: 'items#destroy'
+    # resources :items, except: [:show]
 
-    # get '/items', to: 'items#index'
-    # get '/items/new', to: 'items#new'
-    # post '/items', to: 'items#create'
-    # get '/items/:id/edit', to: 'items#edit'
-    # patch '/items/:id', to: 'items#update'
-    # put '/items/:id', to: 'items#update'
-    # delete '/items/:id', to: 'items#destroy'
-    resources :items, except: [:show]
-
-    # get '/discounts', to: 'discounts#index'
-    # get '/discounts/new', to: 'discounts#new'
-    # post '/discounts', to: 'discounts#create'
-    # get '/discounts/:id/edit', to: 'discounts#edit'
-    # put '/discounts/:id', to: 'discounts#update'
-    # patch '/discounts/:id', to: 'discounts#update'
-    # delete '/discounts/:id', to: 'discounts#destroy'
-    resources :discounts, except: [:show]
+    get '/discounts', to: 'discounts#index'
+    get '/discounts/new', to: 'discounts#new'
+    post '/discounts', to: 'discounts#create'
+    get '/discounts/:id/edit', to: 'discounts#edit'
+    put '/discounts/:id', to: 'discounts#update'
+    patch '/discounts/:id', to: 'discounts#update'
+    delete '/discounts/:id', to: 'discounts#destroy'
+    # resources :discounts, except: [:show]
 
     get '/orders/:order_id', to: 'orders#show'
     patch '/orders/:id', to: 'orders#update', as: :order
